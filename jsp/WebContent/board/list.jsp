@@ -1,6 +1,18 @@
+<%@page import="com.webjjang.board.dto.BoardDTO"%>
+<%@page import="java.util.List"%>
+<%@ page import="com.webjjang.board.dao.BoardDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <% System.out.println("/board/list.jsp"); %>
+<!--  DB에서 데이터를 가져오는 자바 프로그램 작성 -->
+<% //여기가 자바 프로그램입니다
+//DAO를 생성하고 호출해서 사용한다
+BoardDAO dao = new BoardDAO();
+List<BoardDTO> list = dao.list();
+// java와 jsp에서 공통으로 사용하는 데이터 영역에 해당되는 객체 - request를 주로 사용
+request.setAttribute("list", list);
+
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,6 +44,7 @@
 <body>
 <div class="container">
 <h1>게시판 리스트</h1>
+${list }
 <table class="table">
 	<tr>
 		<th>번호</th>
