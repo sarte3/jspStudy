@@ -1,6 +1,18 @@
+<%@page import="com.webjjang.board.dto.BoardDTO"%>
+<%@page import="com.webjjang.board.dao.BoardDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <% System.out.println("/board/view.jsp"); %>
+<%
+//여기는 자바입니다.
+// 데이터 : no 데이터 받기
+String strNo = request.getParameter("no");
+int no = Integer.parseInt(strNo);
+BoardDAO dao = new BoardDAO();
+dao.increaseHit(no);
+request.setAttribute("dto", dao.view(no));
+
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,33 +29,32 @@
 <table class="table">
 	<tr>
 		<th>번호</th>
-		<td>10</td>
+		<td>${dto.no }</td>
 	</tr>
 	<tr>
 		<th>제목</th>
-		<td>JSP란?</td>
+		<td>${dto.title }</td>
 	</tr>
 	<tr>
 		<th>내용</th>
-		<td><pre style="background:none; border:none;">웹 프로그래밍입니다.
-자바기반의 프로그램입니다.</pre></td>
+		<td><pre style="background:none; border:none;">${dto.content }</pre></td>
 	</tr>
 	<tr>
 		<th>작성자</th>
-		<td>이영환</td>
+		<td>${dto.writer }</td>
 	</tr>
 	<tr>
 		<th>작성일</th>
-		<td>2020.11.20</td>
+		<td>${dto.writeDate }</td>
 	</tr>
 	<tr>
 		<th>조회수</th>
-		<td>5</td>
+		<td>${dto.hit }</td>
 	</tr>
 	<tr>
 		<td colspan="2">
-			<a href="updateForm.jsp" class="btn btn-default">수정</a>
-			<a href="delete.jsp" class="btn btn-default">삭제</a>
+			<a href="updateForm.jsp?no=${dto.no }" class="btn btn-default">수정</a>
+			<a href="delete.jsp?no=${dto.no }" class="btn btn-default">삭제</a>
 			<a href="list.jsp" class="btn btn-default">리스트</a>
 		</td>
 	</tr>

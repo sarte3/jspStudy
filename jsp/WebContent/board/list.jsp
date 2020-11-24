@@ -38,7 +38,9 @@ request.setAttribute("list", list);
 		// 데이터 한줄 클릭하면 글보기로 이동되는 이벤트 처리
 		$('.dataRow').click(function(){
 			//location.href = 'view.jsp';
-			location = 'view.jsp';
+			var no = $(this).find('.no').text();
+
+			location = 'view.jsp?no='+no;
 		})
 	})
 </script>
@@ -57,7 +59,7 @@ request.setAttribute("list", list);
 	<c:forEach items="${list }" var="dto">
 		<!-- 반복문 시작 -->
 		<tr class="dataRow">
-			<td>${dto.no}</td>
+			<td class="no">${dto.no}</td>
 			<td>${dto.title}</td>
 			<td>${dto.writer}</td>
 			<td>${dto.writeDate}</td>
