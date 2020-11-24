@@ -3,6 +3,8 @@
 <%@ page import="com.webjjang.board.dao.BoardDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%-- jstl 등록 --%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <% System.out.println("/board/list.jsp"); %>
 <!--  DB에서 데이터를 가져오는 자바 프로그램 작성 -->
 <% //여기가 자바 프로그램입니다
@@ -44,7 +46,6 @@ request.setAttribute("list", list);
 <body>
 <div class="container">
 <h1>게시판 리스트</h1>
-${list }
 <table class="table">
 	<tr>
 		<th>번호</th>
@@ -53,20 +54,17 @@ ${list }
 		<th>작성일</th>
 		<th>조회수</th>
 	</tr>
-	<tr class="dataRow">
-		<td>10</td>
-		<td>JSP란?</td>
-		<td>이영환</td>
-		<td>2020.11.20</td>
-		<td>5</td>						
-	</tr>
-	<tr class="dataRow">
-		<td>9</td>
-		<td>빅데이터란?</td>
-		<td>김경선</td>
-		<td>2020.11.19</td>
-		<td>15</td>						
-	</tr>	
+	<c:forEach items="${list }" var="dto">
+		<!-- 반복문 시작 -->
+		<tr class="dataRow">
+			<td>${dto.no}</td>
+			<td>${dto.title}</td>
+			<td>${dto.writer}</td>
+			<td>${dto.writeDate}</td>
+			<td>${dto.hit}</td>						
+		</tr>
+	<!-- 반복문의 끝 -->
+	</c:forEach>
 	<tr>
 		<td colspan="5">
 			<a href="writeForm.jsp" class="btn btn-default">글쓰기</a>
