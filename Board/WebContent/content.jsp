@@ -28,8 +28,6 @@
 	sql = "update board set readnum=readnum+1 where id="+id;
 	stmt = conn.createStatement();
 	stmt.executeUpdate(sql);
-	
-
 
 %>
 <!DOCTYPE html>
