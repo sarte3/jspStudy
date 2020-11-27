@@ -14,7 +14,7 @@
   	
 	//쿼리 생성
 	String sql="select * from board order by id desc";
-		 s
+		 
 	//심부름꾼 생성
 	PreparedStatement pstmt = conn.prepareStatement(sql);
 	
@@ -60,24 +60,23 @@
 	
 	<tr class="dataRow">
 		<td><%=rs.getString("name") %></td>
-		<td><%=rs.getString("title") %></td>
+		<td><a href="content.jsp?id=<%=rs.getString("id") %>"><%=rs.getString("title") %></a></td>
 		<td><%=rs.getString("readnum") %></td>
 		<td><%=rs.getString("writeday") %></td>
 	</tr>
-	<script>
-	$(function(){ //onready - html - body 부분의 내용이 다 로딩되면 동작되도록 한다
-		// 데이터 한줄 클릭하면 글보기로 이동되는 이벤트 처리
-		$('.dataRow').click(function(){
-		//location.href = 'view.jsp';
-		
-			location = 'content.jsp?id='+<%=rs.getString("id")%>;
-		})
-	})
-	</script>
 	<%
 		}
 	%>
+	<tr>
+		<td colspan="4" align="right"><a href="write.jsp">글쓰기</a></td>
+	</tr>
 </table>
 </div>
 </body>
 </html>
+<%
+	rs.close();
+	pstmt.close();
+	conn.close();
+
+%>
