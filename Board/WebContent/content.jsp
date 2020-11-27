@@ -51,7 +51,6 @@
 	
 </style>
 <script>
-	
 
 	function check()
 	{
