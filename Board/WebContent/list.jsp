@@ -14,7 +14,7 @@
   	
 	//쿼리 생성
 	String sql="select * from board order by id desc";
-		
+		 s
 	//심부름꾼 생성
 	PreparedStatement pstmt = conn.prepareStatement(sql);
 	
