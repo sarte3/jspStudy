@@ -51,6 +51,32 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+#delForm {
+	display : none;
+}
+</style>
+<script>
+	function del()
+	{
+		document.getElementById("delForm").style.display="block";
+	}
+	
+	function check()
+	{
+		pwd = "<%=rs.getString("pwd")%>";
+		myPwd = document.frm1.pwd.value;
+		if(pwd == myPwd)
+		{
+			return true;
+		}
+		else
+		{
+			document.getElementById("msg").innerHTML="비번이 틀렸습니다";
+			return false;	
+		}
+	}
+</script>
 </head>
 <body>
 	<!-- 하나의 레코드 내용을 출력 -->
@@ -79,10 +105,18 @@
 		</tr>
 		<tr>
 			<td colspan="6" align="center">
-			<a href="update.jsp">수정</a>
-			<a href="delete.jsp">삭제</a>
+			<a href="update.jsp?id=<%=rs.getInt("id") %>">수정</a>
+			<a href="#" onclick="del()">삭제</a>
 			<a href="list.jsp">목록</a>	
 			</td>
+		</tr>
+		<tr>
+			<td colspan="6" align="center">
+			<form id="delForm" name="frm1" method="post" action="delete.jsp?id=<%=id%>" onsubmit="return check()">
+				비밀번호 <input type="password" name="pwd">
+				<input type="submit" value="확인">
+				<span id="msg"></span>
+			</form>
 		</tr>
 	</table>
 </body>
