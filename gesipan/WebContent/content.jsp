@@ -16,7 +16,7 @@
 	//심부름꾼 생성
 	Statement stmt = conn.createStatement();
 	//쿼리실행 => ResultSet에 저장
-	ResultSet rs = stmt. executeQuery(sql);
+	ResultSet rs = stmt.executeQuery(sql);
 	rs.next();
 	//성별
 	String sung=null;
