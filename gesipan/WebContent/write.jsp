@@ -48,7 +48,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td> 태어난 해</td>
+			<td>태어난 해</td>
 			<td>
 				<select name="birth">
 				<%

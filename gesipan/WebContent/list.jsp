@@ -11,7 +11,7 @@
    
     // limit에 들어갈 index 번호 생성
     int index; // limit에 전달할 index 값
-    int pager; // 현재 나타내고자 하는 페이지 값ㅇ르 저장
+    int pager; // 현재 나타내고자 하는 페이지 값을 저장
     if(request.getParameter("pager")==null)
     {
     	pager=1;
