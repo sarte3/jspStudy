@@ -76,6 +76,7 @@
 			return false;	
 		}
 	}
+	
 </script>
 </head>
 <body>
@@ -119,5 +120,69 @@
 			</form>
 		</tr>
 	</table>
+	<script>
+		function update()
+		{
+			// 폼 태그의 action="dat_update_ok.jsp", submit의 value를 '댓글 수정'으로
+			document.getElementById("pkc").action="dat_update_ok.jsp";
+			document.getElementById("submit").value="댓글 수정";
+			document.getElementById("name").style.visibility="visible";
+			document.getElementById("content").style.visibility="visible";
+		
+		}
+		
+		function del(id)
+		{
+			// 폼 태그의 action="dat_delete.jsp"로 변경, submit의 value를 '댓글 삭제'로
+			document.getElementById("pkc").action="dat_delete.jsp";
+			document.getElementById("submit").value="댓글 삭제";
+			document.getElementById("name").style.visibility="hidden";
+			document.getElementById("content").style.visibility="hidden";
+			document.dat.id.value=id; // dat 테이블의 id 값을 전달
+		}
+	</script>
+	<!-- 댓글 관련 작업 -->
+	<!-- 댓글 입력 폼 =>작성자, 내용, 비번-->
+	<div align="center">
+		<form id="pkc" name="dat" method="post" action="dat_write_ok.jsp">
+			<input type="hidden" name="id"> <!-- dat테이블의 id -->
+			<input type="text" name="name" size="5" placeholder="작성자" id="name">
+			<input type="text" name="content" size="50" placeholder="댓글 내용" id="content">
+			<input type="text" name="pwd" size="5" placeholder="비밀번호">
+			<input type="hidden" name="gid" value="<%=id %>"> <!-- gesipan테이블의 id -->
+			<input type="submit" value="댓글 달기" id="submit">
+		</form>
+	</div>
+	<!-- 댓글 출력 -->
+	<%
+		// DB 연결
+		
+		// 쿼리 생성
+		sql = "select * from dat where gid="+id;
+		
+		// 심부름꾼 생성
+		stmt = conn.createStatement();
+		
+		// 쿼리 실행 => ResultSet
+		rs = stmt.executeQuery(sql);
+				
+	%>
+	<div align="center">
+		<table align="center" width="600">
+			<!-- 레코드를 출력 -->
+			<%
+			while(rs.next()) //rs는 dat테이블
+			{ //하나의 tr에 하나의 레코드가 출력
+			%>
+			<tr>
+				<td width="60"><a href="javascript:update()"><%=rs.getString("name") %></a></td> <!-- 작성자 -->
+				<td><%=rs.getString("content") %></td> <!--  내용 -->
+				<td width="100"><a href="javascript:del(<%=rs.getInt("id")%>)"><%=rs.getString("writeday") %></a></td> <!-- 작성일 -->
+			</tr>
+			<%
+			}
+			%>
+		</table>
+	</div>
 </body>
 </html>
