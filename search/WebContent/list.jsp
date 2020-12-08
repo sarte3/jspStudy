@@ -9,6 +9,8 @@
     String pw="1234";
     Connection conn= DriverManager.getConnection(db,userid,pw); // db정보,아이디,비번
    
+    request.setCharacterEncoding("utf-8");
+    
     // limit에 들어갈 index 번호 생성
     int index; // limit에 전달할 index 값
     int pager; // 현재 나타내고자 하는 페이지 값을 저장
@@ -24,8 +26,32 @@
     index = (pager-1)*10;
     
 	// 쿼리 생성
-	String sql = "select * from gesipan order by id desc limit "+index+", 10";
+	// 아무거나 => 검색 조건이 없다..
 	
+	// 검색 필드와 검색단어의 값을 request 합니다
+	
+	String sql = null;
+	
+	if(request.getParameter("cla")==null)
+	{
+		sql = "select * from gesipan where order by id desc limit "+index+", 10";
+	}
+	else
+	{
+		String cla = request.getParameter("cla"); // 검색필드
+		String sword = request.getParameter("sword"); // 검색 단어
+	
+		if(cla.equals("name"))
+		{
+			// name 필드를 검색
+			sql = "select * from gesipan where name like '%"+sword+"%' order by id desc limit "+index+", 10";
+		}
+		else
+		{
+			// title 필드를 검색
+			sql = "select * from gesipan where title like '%"+sword+"%' order by id desc limit "+index+", 10";
+		}
+	}
     // 심부름꾼생성
 	Statement stmt = conn.createStatement();
 	
@@ -49,6 +75,18 @@
 </style>
 </head>
 <body>
+	<!-- 필드와 검색 단어를 입력할 폼태그 -->
+	<div align="center">
+		<form method="post" action="list.jsp">
+			<select name="cla">
+				<option value="name">이름</option>
+				<option value="title">제목</option>
+			</select>
+			<input type="text" name="sword">
+			<input type="submit" value="검색">
+		</form>
+	</div>
+	
 	<!-- 레코드 내용 출력-->
 	<table width="600" align="center">
 	<tr>
@@ -73,7 +111,7 @@
 	%>
 	<tr>
 		<td><%=rs.getString("name") %></td>
-		<td><a href="content2.jsp?id=<%=rs.getInt("id")%>"><%=rs.getString("title") %></a></td>
+		<td><a href="content.jsp?id=<%=rs.getInt("id")%>"><%=rs.getString("title") %></a></td>
 		<td><%=sung%></td>
 		<td><%=rs.getString("writeday") %></td>
 	</tr>

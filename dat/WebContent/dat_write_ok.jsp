@@ -31,5 +31,5 @@
   	pstmt.executeUpdate();
   	
   	// 실행 후 이동 : content.jsp
-  	response.sendRedirect("content.jsp?id="+gid);
+  	response.sendRedirect("content2.jsp?id="+gid); //저장 후에 content로 이동 gesipan테이블의 id
 %>
