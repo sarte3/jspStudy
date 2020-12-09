@@ -30,26 +30,31 @@
 	
 	// 검색 필드와 검색단어의 값을 request 합니다
 	
-	String sql = null;
+	String sql = "";
+	String addsql = "";
+	String cla = "";
+	String sword = "";
 	
 	if(request.getParameter("cla")==null)
 	{
-		sql = "select * from gesipan where order by id desc limit "+index+", 10";
+		sql = "select * from gesipan order by id desc limit "+index+", 10";
 	}
 	else
 	{
-		String cla = request.getParameter("cla"); // 검색필드
-		String sword = request.getParameter("sword"); // 검색 단어
+		cla = request.getParameter("cla"); // 검색필드
+		sword = request.getParameter("sword"); // 검색 단어
 	
 		if(cla.equals("name"))
 		{
 			// name 필드를 검색
 			sql = "select * from gesipan where name like '%"+sword+"%' order by id desc limit "+index+", 10";
+			addsql = " where name like '%"+sword+"%'";
 		}
 		else
 		{
 			// title 필드를 검색
 			sql = "select * from gesipan where title like '%"+sword+"%' order by id desc limit "+index+", 10";
+			addsql = " where title like '%"+sword+"%'";
 		}
 	}
     // 심부름꾼생성
@@ -73,16 +78,22 @@
 		text-decoration: underline;
 	}
 </style>
+<script>
+	function init()
+	{
+		document.se.cla.value = "<%=cla%>";
+	}
+</script>
 </head>
-<body>
+<body onload="init()">
 	<!-- 필드와 검색 단어를 입력할 폼태그 -->
 	<div align="center">
-		<form method="post" action="list.jsp">
+		<form name="se" method="post" action="list.jsp">
 			<select name="cla">
 				<option value="name">이름</option>
 				<option value="title">제목</option>
 			</select>
-			<input type="text" name="sword">
+			<input type="text" name="sword" value="<%=sword%>">
 			<input type="submit" value="검색">
 		</form>
 	</div>
@@ -111,7 +122,7 @@
 	%>
 	<tr>
 		<td><%=rs.getString("name") %></td>
-		<td><a href="content.jsp?id=<%=rs.getInt("id")%>"><%=rs.getString("title") %></a></td>
+		<td><a href="content.jsp?id=<%=rs.getInt("id")%>&pager=<%=pager%>&cla=<%=cla%>&sword=<%=sword%>"><%=rs.getString("title") %></a></td>
 		<td><%=sung%></td>
 		<td><%=rs.getString("writeday") %></td>
 	</tr>
@@ -127,7 +138,10 @@
 				pstart=((pager/10)-1)*10+1;
 			} */
 			// 총 페이지값 구하기 총 레코드 수/페이지당 레코드 수+1
-			sql = "select count(*) as cnt from gesipan";
+			sql = "select count(*) as cnt from gesipan"+addsql;
+			// 1. 없다 2. where name like '%검색어%' 3. where title like '%검색어%'
+			
+			
 			ResultSet rs2 = stmt.executeQuery(sql);
 			rs2.next();
 			int page_cnt = rs2.getInt("cnt")/10+1;
@@ -155,7 +169,7 @@
 			{
 				
 			%>
-			<a href="list.jsp?pager=<%=pstart-1%>">◀◀</a>
+			<a href="list.jsp?pager=<%=pstart-1%>&cla=<%=cla %>&sword=<%=sword %>">◀◀</a>
 			<%
 			}
 			else
@@ -169,7 +183,7 @@
 			{
 			%>
 			<!-- 현재페이지 기준 1페이지 이전 -->
-			<a href="list.jsp?pager=<%=pager-1%>">◀</a>
+			<a href="list.jsp?pager=<%=pager-1%>&cla=<%=cla %>&sword=<%=sword %>">◀</a>
 			<%
 			}
 			else
@@ -190,7 +204,7 @@
 				
 				
 			%>
-				<a href="list.jsp?pager=<%=i%> <%=str %>" ><%=i %></a>	
+				<a href="list.jsp?pager=<%=i%>&cla=<%=cla %>&sword=<%=sword %> <%=str %>" ><%=i %></a>	
 			<%	
 			}
 			%>
@@ -200,7 +214,7 @@
 			if(pager!=page_cnt)
 			{
 			%>
-			<a href="list.jsp?pager=<%=pager+1%>">▶</a>
+			<a href="list.jsp?pager=<%=pager+1%>&cla=<%=cla %>&sword=<%=sword %>">▶</a>
 			<%
 			}
 			else
@@ -215,7 +229,7 @@
 			if(page_cnt!=pend)
 			{
 			%>
-			<a href="list.jsp?pager=<%=pend+1%>">▶▶</a>
+			<a href="list.jsp?pager=<%=pend+1%>&cla=<%=cla %>&sword=<%=sword %>">▶▶</a>
 			<%
 			}
 			else

@@ -15,6 +15,8 @@
 	
 	ResultSet rs = stmt.executeQuery(sql);
 
+	
+	
  %>
 <!DOCTYPE html>
 <html>
@@ -31,23 +33,38 @@
 		<th>영어</th>
 		<th>수학</th>
 		<th>과학</th>
+		<th>총점</th>
+		<th>평균</th>
 		<th>작성일</th>
 	</tr>
 	<%
 	while(rs.next())
 	{
+		double kor = rs.getDouble("kor");
+		double eng = rs.getDouble("eng");
+		double mat = rs.getDouble("mat");
+		double sci = rs.getDouble("sci");
+		
+		double sum = kor + eng + mat + sci;
+		double avg = Math.round(sum/4.0*100)/100.0;
+		
 	%>
 	<tr>
 		<td><%=rs.getString("name") %></td>
-		<td><%=rs.getString("kor") %></td>
-		<td><%=rs.getString("eng") %></td>
-		<td><%=rs.getString("mat") %></td>
-		<td><%=rs.getString("sci") %></td>
+		<td><%=kor %></td>
+		<td><%=eng %></td>
+		<td><%=mat %></td>
+		<td><%=sci %></td>
+		<td><%=sum %></td>
+		<td><%=avg %></td>
 		<td><%=rs.getString("writedate") %></td>
 	</tr>
 	<%
 	}
 	%>
+	<tr>
+		<td colspan="8"><a href="input.jsp">글쓰기</a></td>
+	</tr>
 </table>
 </body>
 </html>
