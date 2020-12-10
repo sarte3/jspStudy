@@ -14,11 +14,11 @@
 	
 	if(cla!=null)
 	{
-		sql = "select id, name, kor, eng, mat, sci, writedate, kor + eng + mat + sci sum, round((kor + eng + mat + sci) / 4, 2) avg from sung order by "+cla+" desc";
+		sql = "select id, name, kor, eng, mat, sci, writedate, (kor + eng + mat + sci) sum, round((kor + eng + mat + sci) / 4, 2) avg from sung order by "+cla+" desc";
 	}
 	else
 	{
-		sql = "select * from sung order by name asc";
+		sql = "select id, name, kor, eng, mat, sci, writedate, (kor + eng + mat + sci) sum, round((kor + eng + mat + sci) / 4, 2) avg from sung order by name asc";
 	}
 	
 	Statement stmt = conn.createStatement();
@@ -42,6 +42,12 @@ td {
 }
 </style>
 </head>
+<script>
+	function view(id)
+	{
+		window.open("sung.jsp?id="+id,"","width=500, height=300")
+	}
+</script>
 <body>
 <h1>성적 입력</h1>
 <form name="input" action="input_ok.jsp">
@@ -77,7 +83,7 @@ td {
 		
 	%>
 	<tr>
-		<td><%=rs.getString("name") %></td>
+		<td><a href="javascript:view(<%=rs.getInt("id")%>)"><%=rs.getString("name") %></a></td>
 		<td><%=kor %></td>
 		<td><%=eng %></td>
 		<td><%=mat %></td>
