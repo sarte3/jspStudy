@@ -47,10 +47,59 @@ td {
 	{
 		window.open("sung.jsp?id="+id,"","width=500, height=300")
 	}
+	
+	function check()
+	{
+		if(document.input.name.value=='')
+		{
+			alert('이름을 입력하세요');
+			return false;
+		}
+		
+		var arr = new Array();
+		
+		arr[0] = validNumber(document.input.kor.value);
+		arr[1] = validNumber(document.input.eng.value);
+		arr[2] = validNumber(document.input.mat.value);
+		arr[3] = validNumber(document.input.sci.value);
+
+		for(var i=0;i<arr.length;i++)
+		{
+			if(arr[i]==false)
+			{
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	function validNumber(e)
+	{
+		
+		for(var i=0;i<e.length;i++)
+		{
+			
+			if(e.charAt(i).charCodeAt(i)<48||e.charAt(i).charCodeAt(i)>58)
+			{
+				alert("성적은 숫자만 입력하세요");
+				return false;
+			}	
+		}
+		
+		if(!(parseInt(e)>=0&&parseInt(e)<=100))
+		{
+			alert("성적은 0~100사이 숫자만 입력하세요");
+			return false;
+		}
+		
+		return true;
+	}
+	
 </script>
 <body>
 <h1>성적 입력</h1>
-<form name="input" action="input_ok.jsp">
+<form name="input" action="input_ok.jsp" onsubmit="return check()">
 이름 <input type="text" name="name">
 국어 <input type="text" name="kor">
 영어 <input type="text" name="eng">
