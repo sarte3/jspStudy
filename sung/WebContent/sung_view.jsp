@@ -40,6 +40,9 @@ input[type="text"] {
 td {
 	width: 100px;
 }
+#update{
+	visibility: hidden;
+}
 </style>
 </head>
 <script>
@@ -76,6 +79,8 @@ td {
 	
 	function validNumber(e)
 	{
+		//isNaN() 문자=>true, 숫자=>false, 빈칸=>false
+		
 		
 		for(var i=0;i<e.length;i++)
 		{
@@ -95,9 +100,26 @@ td {
 		
 		return true;
 	}
+
+	function update(id, kor, eng, mat, sci, name)
+	{
+		document.update.style.visibility="visible";
+		
+		document.getElementById("name").innerHTML=name;
+		
+		document.update.id.value=id;
+		document.update.kor.value=kor;
+		document.update.eng.value=eng;
+		document.update.mat.value=mat;
+		document.update.sci.value=sci;
+		
+		
+	}
 	
 </script>
+
 <body>
+
 <h1>성적 입력</h1>
 <form name="input" action="input_ok.jsp" onsubmit="return check()">
 이름 <input type="text" name="name">
@@ -117,7 +139,7 @@ td {
 		<th><a href="sung_view.jsp?cla=sci">과학</a></th>
 		<th><a href="sung_view.jsp?cla=sum">총점</a></th>
 		<th><a href="sung_view.jsp?cla=avg">평균</a></th>
-		<th>작성일</th>
+		<th>수정</th>
 	</tr>
 	<%
 	while(rs.next())
@@ -139,11 +161,24 @@ td {
 		<td><%=sci %></td>
 		<td><%=sum %></td>
 		<td><%=avg %></td>
-		<td><%=rs.getString("writedate") %></td>
+		<td><a href="javascript:update(<%=rs.getString("id")%>, <%=kor%>, <%=eng%>, <%=mat%>, <%=sci%>, '<%=rs.getString("name")%>')">수정</a></td>
 	</tr>
 	<%
 	}
 	%>
+	<tr>
+
+	
+	<td colspan="8">
+	<form name="update" id="update" action="update_ok.jsp">
+		<span id="name"></span>
+		<input type="hidden" name="id" value="">
+		국어<input type="text" name="kor" size="6"> 영어<input type="text" name="eng" size="6">
+		수학<input type="text" name="mat" size="6"> 과학<input type="text" name="sci" size="6">
+		<input type="submit" value="수정하기">
+	</form>
+	</td>
+	</tr>
 </table>
 </body>
 </html>
